@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject HUDObject;
 
+    public Animator BagIcon;
+    public Animator CameraIcon;
+
     public bool PhotoMode
     {
         get
@@ -35,12 +38,14 @@ public class UIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.DownArrow))
         {
+            DownArrow.Play("ArrowClick");
+            CameraIcon.Play("SelectIcon");
             PhotoMode = !PhotoMode;
-            DownArrow.Play("ArrowClick"); 
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             UpArrow.Play("ArrowClick");
+            BagIcon.Play("SelectIcon");
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
