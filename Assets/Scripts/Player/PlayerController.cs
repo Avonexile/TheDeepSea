@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private float _movementSpeed;
     private float _baseLandSpeed = 5f;
-    private float _baseWaterSpeed = 1.5f;
+    private float _baseWaterSpeed = 3f;
     private bool _isSwimming;
 
     public float Depth;
@@ -26,9 +26,6 @@ public class PlayerController : MonoBehaviour
     public bool IsJumping;
     //TODO: Make propertiess for these
 
-    public Vector3 verticalSwim;
-    public float VerticalSwim;
-    public float Multiplier = 1.7f;
     #region Properties
     public float MovementSpeed
     {
@@ -81,7 +78,8 @@ public class PlayerController : MonoBehaviour
 
             if (value)
             {
-                MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+                MyRB.velocity = new Vector3(0f, 0f, 0f);
+                //MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
                 MyRB.useGravity = false;
                 MovementSpeed = BaseWaterSpeed;
             }
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake ()
     {
-        MyCam = GameObject.FindObjectOfType<Camera>().transform;
+        MyCam = GameObject.FindObjectOfType<CameraController>().transform;
         MyRB = GetComponent<Rigidbody>();
 
         IsSwimming = false;
@@ -130,7 +128,6 @@ public class PlayerController : MonoBehaviour
           
             if (Input.GetKey(KeyCode.Space))
                 direction += Vector3.up;
-
         }
         else
         {
@@ -165,7 +162,11 @@ public class PlayerController : MonoBehaviour
     }
     private void CheckDepth ()
     {
-        if (transform.position.y < -3f)
+        if (transform.position.y < -1.5 && transform.position.y > -2.5f)
+            MyRB.velocity = new Vector3(0f, -.5f, 0f);
+
+        
+        if (transform.position.y < -2.5f)
             IsSwimming = true;
 
         else if(transform.position.y > 1)
