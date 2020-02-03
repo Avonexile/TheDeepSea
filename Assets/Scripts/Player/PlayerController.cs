@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Suimono.Core;
+
 public class PlayerController : MonoBehaviour
 {
     //TESTS
@@ -17,11 +19,16 @@ public class PlayerController : MonoBehaviour
     private float _baseWaterSpeed = 1.5f;
     private bool _isSwimming;
 
+    public float Depth;
+
     //TODO: Make properties for these
     public float _jumpHeight = 5f;
     public bool IsJumping;
     //TODO: Make propertiess for these
 
+    public Vector3 verticalSwim;
+    public float VerticalSwim;
+    public float Multiplier = 1.7f;
     #region Properties
     public float MovementSpeed
     {
@@ -74,11 +81,13 @@ public class PlayerController : MonoBehaviour
 
             if (value)
             {
+                MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
                 MyRB.useGravity = false;
                 MovementSpeed = BaseWaterSpeed;
             }
             else
             {
+                MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
                 MyRB.useGravity = true;
                 MovementSpeed = BaseLandSpeed;
             }
@@ -95,6 +104,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        CheckDepth();
         MovementInput();
     }
     private void MovementInput ()
@@ -117,9 +127,10 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftControl))
                 direction += Vector3.down;
-
+          
             if (Input.GetKey(KeyCode.Space))
                 direction += Vector3.up;
+
         }
         else
         {
@@ -140,6 +151,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
+        //direction = direction + new Vector3(0, VerticalSwim, 0);
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
     }
     private void Jump ()
@@ -150,6 +162,16 @@ public class PlayerController : MonoBehaviour
         IsJumping = true;
 
         MyRB.AddForce(new Vector3(0, MyRB.velocity.y + _jumpHeight, 0), ForceMode.Impulse);
+    }
+    private void CheckDepth ()
+    {
+        if (transform.position.y < -3f)
+            IsSwimming = true;
+
+        else if(transform.position.y > 1)
+            IsSwimming = false;
+
+        Depth = transform.position.y;
     }
     private void OnCollisionEnter(Collision collision)
     {

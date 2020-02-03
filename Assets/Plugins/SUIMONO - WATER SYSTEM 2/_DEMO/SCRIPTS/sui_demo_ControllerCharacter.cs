@@ -318,10 +318,10 @@ public class sui_demo_ControllerCharacter : MonoBehaviour {
 					isFloating = false;
 					isAtSurface = false;
 					
-					if (waterLevel >= 0.9f && waterLevel < 1.8f) isInWaterDeep = true;
+					//if (waterLevel >= 0.9f && waterLevel < 1.8f) isInWaterDeep = true;
 					if (waterLevel >= 1.8f) isUnderWater = true;
-					if (waterLevel >= 1.2f && waterLevel < 1.8f) isAtSurface = true;
-					if (isInWaterDeep && waterLevel > 2.0f) isFloating = true;
+					//if (waterLevel >= 1.2f && waterLevel < 1.8f) isAtSurface = true;
+					//if (isInWaterDeep && waterLevel > 2.0f) isFloating = true;
 
 				}
 				
