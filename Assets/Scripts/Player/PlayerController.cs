@@ -78,14 +78,14 @@ public class PlayerController : MonoBehaviour
 
             if (value)
             {
+                UIManager.current.ShowDepthMeter(true);
                 MyRB.velocity = new Vector3(0f, 0f, 0f);
-                //MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
                 MyRB.useGravity = false;
                 MovementSpeed = BaseWaterSpeed;
             }
             else
             {
-                MyRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                UIManager.current.ShowDepthMeter(false);
                 MyRB.useGravity = true;
                 MovementSpeed = BaseLandSpeed;
             }
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    private void Awake ()
+    private void Start ()
     {
         MyCam = GameObject.FindObjectOfType<CameraController>().transform;
         MyRB = GetComponent<Rigidbody>();

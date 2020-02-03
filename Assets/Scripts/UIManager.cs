@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager current;
+
     [Header("Wheel Options")]
     public Animator UpArrow;
     public Animator DownArrow;
@@ -17,6 +19,8 @@ public class UIManager : MonoBehaviour
 
     public Animator BagIcon;
     public Animator CameraIcon;
+
+    public GameObject DepthMeter;
 
     public bool PhotoMode
     {
@@ -32,7 +36,10 @@ public class UIManager : MonoBehaviour
             HUDObject.SetActive(!value);
         }
     }
-
+    private void Awake ()
+    {
+        current = this;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -55,5 +62,13 @@ public class UIManager : MonoBehaviour
         {
             RightArrow.Play("ArrowClick");
         }
+    }
+    public void ShowElement (GameObject item)
+    {
+        item.SetActive(!item.activeSelf);
+    }
+    public void ShowDepthMeter (bool show)
+    {
+        DepthMeter.SetActive(show);
     }
 }
