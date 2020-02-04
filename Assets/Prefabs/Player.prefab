@@ -126,14 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a051390cd7e0fa4aaf33e29cbf7b089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SwimmingSpeedModifier: 0
-  LandSpeedModifier: 0
+  SwimmingSpeedModifier: 1
+  LandSpeedModifier: 1
   Depth: 0
-  _jumpHeight: 5
-  IsJumping: 0
-  verticalSwim: {x: 0, y: 0, z: 0}
-  VerticalSwim: 0
-  Multiplier: 1.7
 --- !u!114 &5374246734611324881
 MonoBehaviour:
   m_ObjectHideFlags: 0

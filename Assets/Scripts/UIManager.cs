@@ -20,8 +20,31 @@ public class UIManager : MonoBehaviour
     public Animator BagIcon;
     public Animator CameraIcon;
 
-    public GameObject DepthMeter;
+    private bool _cursorState;
 
+    #region Properties
+    public bool CursorState
+    {
+        get
+        {
+            return _cursorState;
+        }
+        set
+        {
+            _cursorState = value;
+
+            if(value)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+    }
     public bool PhotoMode
     {
         get
@@ -36,9 +59,12 @@ public class UIManager : MonoBehaviour
             HUDObject.SetActive(!value);
         }
     }
+    #endregion
     private void Awake ()
     {
         current = this;
+
+        CursorState = false;//Test
     }
     // Update is called once per frame
     void Update()
@@ -62,13 +88,6 @@ public class UIManager : MonoBehaviour
         {
             RightArrow.Play("ArrowClick");
         }
-    }
-    public void ShowElement (GameObject item)
-    {
-        item.SetActive(!item.activeSelf);
-    }
-    public void ShowDepthMeter (bool show)
-    {
-        DepthMeter.SetActive(show);
+        //Check for esc button
     }
 }

@@ -21,10 +21,8 @@ public class PlayerController : MonoBehaviour
 
     public float Depth;
 
-    //TODO: Make properties for these
-    public float _jumpHeight = 5f;
-    public bool IsJumping;
-    //TODO: Make propertiess for these
+    private float _jumpHeight = 5f;
+    private bool IsJumping;
 
     #region Properties
     public float MovementSpeed
@@ -38,7 +36,10 @@ public class PlayerController : MonoBehaviour
             _movementSpeed = value;
 
             if (IsSwimming)
+            {
+                MyRB.velocity = Vector3.zero;
                 _movementSpeed *= SwimmingSpeedModifier;
+            }
 
             else
                 _movementSpeed *= LandSpeedModifier;
@@ -78,14 +79,11 @@ public class PlayerController : MonoBehaviour
 
             if (value)
             {
-                UIManager.current.ShowDepthMeter(true);
-                MyRB.velocity = new Vector3(0f, 0f, 0f);
                 MyRB.useGravity = false;
                 MovementSpeed = BaseWaterSpeed;
             }
             else
             {
-                UIManager.current.ShowDepthMeter(false);
                 MyRB.useGravity = true;
                 MovementSpeed = BaseLandSpeed;
             }
@@ -148,7 +146,6 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
-        //direction = direction + new Vector3(0, VerticalSwim, 0);
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
     }
     private void Jump ()
@@ -162,14 +159,10 @@ public class PlayerController : MonoBehaviour
     }
     private void CheckDepth ()
     {
-        if (transform.position.y < -1.5 && transform.position.y > -2.5f)
-            MyRB.velocity = new Vector3(0f, -.5f, 0f);
-
-        
-        if (transform.position.y < -2.5f)
+        if (transform.position.y < 0f)
             IsSwimming = true;
 
-        else if(transform.position.y > 1)
+        else if(transform.position.y > 1f)
             IsSwimming = false;
 
         Depth = transform.position.y;
@@ -179,4 +172,12 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.tag == "Ground" && IsJumping)
             IsJumping = false;
     }
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Trigger" && IsSwimming) { }
+            //Play climbing animation
+
+        if (collider.gameObject.tag == "Trigger" && !IsSwimming) { }
+            //Play animation
+    }   
 }
