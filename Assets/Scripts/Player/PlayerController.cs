@@ -21,13 +21,8 @@ public class PlayerController : MonoBehaviour
 
     public float Depth;
 
-    //TODO: Make properties for these
-    public float _jumpHeight = 5f;
-    public bool IsJumping;
-    //TODO: Make propertiess for these
-
-    public Vector3 SlowFallValue;
-    public float OverTime;
+    private float _jumpHeight = 5f;
+    private bool IsJumping;
 
     #region Properties
     public float MovementSpeed
@@ -42,7 +37,6 @@ public class PlayerController : MonoBehaviour
 
             if (IsSwimming)
             {
-                //StartCoroutine(SlowFall(new Vector3(0, -5f, 0)));
                 MyRB.velocity = Vector3.zero;
                 _movementSpeed *= SwimmingSpeedModifier;
             }
@@ -173,24 +167,6 @@ public class PlayerController : MonoBehaviour
 
         Depth = transform.position.y;
     }
-    //private IEnumerator SlowFall (Vector3 value)
-    //{
-    //    MyRB.velocity = value;
-       
-    //    while(MyRB.velocity.y < 0.1f)
-    //    {
-    //        Debug.Log(MyRB.velocity);
-    //        MyRB.velocity += SlowFallValue;
-    //        if (MyRB.velocity.y >= 0f)
-    //        {
-    //            MyRB.velocity = Vector3.zero;
-    //            StopCoroutine(SlowFall(Vector3.zero));
-    //        }
-
-    //        yield return new WaitForSeconds(OverTime);
-    //    }
-    //    StopCoroutine(SlowFall(Vector3.zero));
-    //}
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Ground" && IsJumping)
