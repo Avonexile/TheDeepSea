@@ -20,8 +20,6 @@ public class UIManager : MonoBehaviour
     public Animator BagIcon;
     public Animator CameraIcon;
 
-    public GameObject DepthMeter;
-
     public bool PhotoMode
     {
         get
@@ -62,13 +60,5 @@ public class UIManager : MonoBehaviour
         {
             RightArrow.Play("ArrowClick");
         }
-    }
-    public void ShowElement (GameObject item)
-    {
-        item.SetActive(!item.activeSelf);
-    }
-    public void ShowDepthMeter (bool show)
-    {
-        DepthMeter.SetActive(show);
     }
 }
