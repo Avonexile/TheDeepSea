@@ -135,31 +135,24 @@ public class PlayerController : MonoBehaviour
             MyCam.forward = new Vector3(MyCam.forward.x, 0, MyCam.forward.z);
 
             if (Input.GetKey(KeyCode.W))
-            {
-                //set rotation to direction
-                
-                //transform.RotateAround(transform.position, transform.forward, 20 * Time.deltaTime);
                 direction += MyCam.forward;
-             
-            }
+
             if (Input.GetKey(KeyCode.S))
-            {
-                //transform.RotateAround(transform.position, -transform.forward, 20 * Time.deltaTime);
                 direction -= MyCam.forward;
-            }
+            
             if (Input.GetKey(KeyCode.A))
-            {
-                //transform.RotateAround(transform.position, transform.up, 20 * Time.deltaTime);
                 direction -= MyCam.right;
-            }
+
             if (Input.GetKey(KeyCode.D))
-            {
-                //transform.RotateAround(transform.position, -transform.up, 20 * Time.deltaTime);
                 direction += MyCam.right;
-            }
+         
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
+        if(direction.x > 0 || direction.x < 0 || direction.z > 0 || direction.z < 0)
+            if(!IsSwimming)
+                animatorController.Play("Walking");
+
         transform.LookAt(transform.position + direction);
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
     }
