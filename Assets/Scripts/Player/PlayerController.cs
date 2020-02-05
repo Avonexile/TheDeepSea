@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Suimono.Core;
+
 public class PlayerController : MonoBehaviour
 {
     //TESTS
@@ -14,13 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private float _movementSpeed;
     private float _baseLandSpeed = 5f;
-    private float _baseWaterSpeed = 1.5f;
+    private float _baseWaterSpeed = 3f;
     private bool _isSwimming;
 
-    //TODO: Make properties for these
-    public float _jumpHeight = 5f;
-    public bool IsJumping;
-    //TODO: Make propertiess for these
+    public float Depth;
+
+    private float _jumpHeight = 5f;
+    private bool IsJumping;
 
     #region Properties
     public float MovementSpeed
@@ -34,7 +36,10 @@ public class PlayerController : MonoBehaviour
             _movementSpeed = value;
 
             if (IsSwimming)
+            {
+                MyRB.velocity = Vector3.zero;
                 _movementSpeed *= SwimmingSpeedModifier;
+            }
 
             else
                 _movementSpeed *= LandSpeedModifier;
@@ -86,15 +91,16 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    private void Awake ()
+    private void Start ()
     {
-        MyCam = GameObject.FindObjectOfType<Camera>().transform;
+        MyCam = GameObject.FindObjectOfType<CameraController>().transform;
         MyRB = GetComponent<Rigidbody>();
 
         IsSwimming = false;
     }
     private void FixedUpdate()
     {
+        CheckDepth();
         MovementInput();
     }
     private void MovementInput ()
@@ -117,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftControl))
                 direction += Vector3.down;
-
+          
             if (Input.GetKey(KeyCode.Space))
                 direction += Vector3.up;
         }
@@ -151,9 +157,27 @@ public class PlayerController : MonoBehaviour
 
         MyRB.AddForce(new Vector3(0, MyRB.velocity.y + _jumpHeight, 0), ForceMode.Impulse);
     }
+    private void CheckDepth ()
+    {
+        if (transform.position.y < 0f)
+            IsSwimming = true;
+
+        else if(transform.position.y > 1f)
+            IsSwimming = false;
+
+        Depth = transform.position.y;
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Ground" && IsJumping)
             IsJumping = false;
     }
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Trigger" && IsSwimming) { }
+            //Play climbing animation
+
+        if (collider.gameObject.tag == "Trigger" && !IsSwimming) { }
+            //Play animation
+    }   
 }
