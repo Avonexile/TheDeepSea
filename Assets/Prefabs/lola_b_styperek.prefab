@@ -133,6 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8928080921016671506}
+  - component: {fileID: 8219847338468964167}
   m_Layer: 0
   m_Name: Hips
   m_TagString: Untagged
@@ -158,6 +159,20 @@ Transform:
   m_Father: {fileID: 189940641853391474}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &8219847338468964167
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599570412227543154}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.26
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.12, z: 0}
 --- !u!1 &629227176557311748
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +801,7 @@ MonoBehaviour:
   SwimmingSpeedModifier: 1
   LandSpeedModifier: 1
   Depth: 0
+  animatorController: {fileID: 0}
 --- !u!114 &4095949698010173893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -832,7 +848,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3817249117596430433}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.26
   m_Height: 2
   m_Direction: 1
@@ -1415,6 +1431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3716464025132236235}
   - component: {fileID: 3382445098995319051}
+  - component: {fileID: 3771916540989505774}
   m_Layer: 0
   m_Name: Lola
   m_TagString: Untagged
@@ -1551,6 +1568,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00010293722, y: -0.14387912, z: 0.044106923}
     m_Extent: {x: 0.95045185, y: 0.9970508, z: 0.18940514}
   m_DirtyAABB: 0
+--- !u!136 &3771916540989505774
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5406777260045910627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.26
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5528972563680163552
 GameObject:
   m_ObjectHideFlags: 0

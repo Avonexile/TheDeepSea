@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private float _jumpHeight = 5f;
     private bool IsJumping;
 
+    public Animator animatorController;
+
     #region Properties
     public float MovementSpeed
     {
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
             if (IsSwimming)
             {
+                animatorController.Play("Swimming");
                 MyRB.velocity = Vector3.zero;
                 _movementSpeed *= SwimmingSpeedModifier;
             }
@@ -123,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftControl))
                 direction += Vector3.down;
-          
+
             if (Input.GetKey(KeyCode.Space))
                 direction += Vector3.up;
         }
@@ -132,17 +135,26 @@ public class PlayerController : MonoBehaviour
             MyCam.forward = new Vector3(MyCam.forward.x, 0, MyCam.forward.z);
 
             if (Input.GetKey(KeyCode.W))
+            {
+                //set rotation to direction
+                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
                 direction += MyCam.forward;
-
+            }
             if (Input.GetKey(KeyCode.S))
+            {
+                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
                 direction -= MyCam.forward;
-
+            }
             if (Input.GetKey(KeyCode.A))
+            {
+                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
                 direction -= MyCam.right;
-
+            }
             if (Input.GetKey(KeyCode.D))
+            {
+                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
                 direction += MyCam.right;
-            
+            }
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
@@ -162,7 +174,7 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < 0f)
             IsSwimming = true;
 
-        else if(transform.position.y > 1f)
+        else if (transform.position.y > 1f)
             IsSwimming = false;
 
         Depth = transform.position.y;
@@ -175,9 +187,12 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Trigger" && IsSwimming) { }
-            //Play climbing animation
+        //Play climbing animation
 
-        if (collider.gameObject.tag == "Trigger" && !IsSwimming) { }
-            //Play animation
+        if (collider.gameObject.tag == "Trigger" && !IsSwimming)
+        {
+            Debug.Log("swim");
+            animatorController.Play("RunToDive");
+        }
     }   
 }
