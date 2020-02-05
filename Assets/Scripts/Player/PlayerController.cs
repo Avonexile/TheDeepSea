@@ -137,27 +137,30 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 //set rotation to direction
-                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
+                
+                //transform.RotateAround(transform.position, transform.forward, 20 * Time.deltaTime);
                 direction += MyCam.forward;
+             
             }
             if (Input.GetKey(KeyCode.S))
             {
-                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
+                //transform.RotateAround(transform.position, -transform.forward, 20 * Time.deltaTime);
                 direction -= MyCam.forward;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
+                //transform.RotateAround(transform.position, transform.up, 20 * Time.deltaTime);
                 direction -= MyCam.right;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                Mathf.Lerp(transform.rotation.y, MyCam.rotation.y, 1f);
+                //transform.RotateAround(transform.position, -transform.up, 20 * Time.deltaTime);
                 direction += MyCam.right;
             }
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
         }
+        transform.LookAt(transform.position + direction);
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
     }
     private void Jump ()
