@@ -7,52 +7,123 @@
       <Entity type="Class">
         <Name>GameManager</Name>
         <Access>Public</Access>
-        <Location left="748" top="289" />
+        <Location left="575" top="348" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Method">public void StartGame()</Member>
+        <Member type="Method">public void QuitGame()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>UIManager</Name>
         <Access>Public</Access>
-        <Location left="292" top="289" />
+        <Location left="255" top="348" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Method">public void ShowUI()</Member>
+        <Member type="Property">public bool PhotoMode { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>PlayerController</Name>
         <Access>Public</Access>
-        <Location left="1107" top="348" />
+        <Location left="1199" top="348" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Property">public bool IsSwimming { get; set; }</Member>
+        <Member type="Method">private void Move()</Member>
+        <Member type="Method">private void Jump()</Member>
+        <Member type="Property">public bool IsJumping { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>CameraController</Name>
         <Access>Public</Access>
-        <Location left="1107" top="636" />
+        <Location left="1199" top="635" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Method">private void Zoom()</Member>
+        <Member type="Method">private void FollowTarget()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>EnvironmentGenerator</Name>
         <Access>Public</Access>
-        <Location left="696" top="646" />
+        <Location left="875" top="348" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Method">private IEnumerator LoadChunk()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Flocking</Name>
         <Access>Public</Access>
-        <Location left="216" top="628" />
+        <Location left="575" top="635" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Member type="Method">private void Coherence()</Member>
+        <Member type="Method">private void Avoidance()</Member>
+        <Member type="Method">private void Alignment()</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
-    <Relationships />
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>550</X>
+          <Y>385</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>550</X>
+          <Y>534</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1246</X>
+          <Y>589</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1312</X>
+          <Y>589</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
   </ProjectItem>
 </Project>
