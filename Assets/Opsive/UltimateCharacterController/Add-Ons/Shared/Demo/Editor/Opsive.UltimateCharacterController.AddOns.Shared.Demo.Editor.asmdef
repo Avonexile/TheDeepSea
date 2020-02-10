@@ -1,0 +1,13 @@
+{
+    "name": "Opsive.UltimateCharacterController.AddOns.Shared.Demo.Editor",
+    "references": [
+        "Opsive.UltimateCharacterController",
+        "Opsive.UltimateCharacterController.Editor",
+        "Opsive.UltimateCharacterController.Demo",
+        "Opsive.UltimateCharacterController.AddOns.Shared.Demo"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

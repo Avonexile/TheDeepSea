@@ -1,0 +1,11 @@
+{
+    "name": "Opsive.UltimateCharacterController.AddOns.Shared.Editor",
+    "references": [
+        "Opsive.UltimateCharacterController",
+        "Opsive.UltimateCharacterController.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

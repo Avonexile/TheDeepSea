@@ -1,0 +1,13 @@
+{
+    "name": "Opsive.UltimateCharacterController.Addons.Swimming.Editor",
+    "references": [
+        "Opsive.UltimateCharacterController",
+        "Opsive.UltimateCharacterController.Editor",
+        "Opsive.UltimateCharacterController.Addons.Swimming",
+        "Opsive.UltimateCharacterController.AddOns.Shared.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

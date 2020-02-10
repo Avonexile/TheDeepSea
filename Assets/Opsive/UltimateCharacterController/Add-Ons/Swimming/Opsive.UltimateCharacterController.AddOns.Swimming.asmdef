@@ -1,0 +1,8 @@
+{
+    "name": "Opsive.UltimateCharacterController.Addons.Swimming",
+    "references": [
+        "Opsive.UltimateCharacterController"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}
