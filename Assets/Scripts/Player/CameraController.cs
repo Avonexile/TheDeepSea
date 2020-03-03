@@ -8,10 +8,7 @@ public class CameraController : MonoBehaviour
 
     private Camera MyCam;
 
-    private float Zoom = 5f;
-    private float MinZoom = 25f;
-    private float MaxZoom = 50f;
-    private float ZoomTime = 5f; //TODO: Make property?
+    public float Zoom = 25f; //TODO: Make property
 
     private float MinRotateClamp = -85f;
     private float MaxRotateClamp = 85f;
@@ -19,29 +16,16 @@ public class CameraController : MonoBehaviour
     private float MouseX;
     private float MouseY;
 
-    private float RotationSpeed = 2f; //TODO: Make property
+    public float RotationSpeed = 4f; //TODO: Make property
 
-
-    private float SmoothVelocity = 25f;
-    private float SmoothDamp = 2f;
-    private float DistanceSmooth;
-
-
-    private float ZoomSpeed = 10f;//TODO: Make property
 
     void Awake ()
     {
         MyCam = GetComponent<Camera>();
     }
-    private void FixedUpdate()
-    {
-        //CheckForObjectInView();
-        CameraZoom();
-    }
     private void LateUpdate()
     {
         CameraRotation();
-        CameraSmoothZoom();
     }
     //void CheckForObjectInView ()
     //{
@@ -60,27 +44,16 @@ public class CameraController : MonoBehaviour
     //Controls camera rotation and focus point
     void CameraRotation()
     {
-        MouseX += Input.GetAxis("Mouse X") * RotationSpeed;
-        MouseY -= Input.GetAxis("Mouse Y") * RotationSpeed;
+        MouseX += Input.GetAxis("Mouse X Cont") * RotationSpeed;
+        MouseY -= Input.GetAxis("Mouse Y Cont") * RotationSpeed;
 
         MouseY = Mathf.Clamp(MouseY, MinRotateClamp, MaxRotateClamp);
 
         Vector3 dir = new Vector3(0, 0, -Zoom);
         Quaternion rot = Quaternion.Euler(MouseY, MouseX, 0);
+
         transform.position = FocusPoint.position + rot * dir;
 
         transform.LookAt(FocusPoint.transform);
-    }
-    //Controls the zoom level
-    void CameraZoom ()
-    {
-        Zoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed;
-        DistanceSmooth = Mathf.SmoothDamp(DistanceSmooth, Zoom, ref SmoothVelocity, SmoothDamp);
-        Zoom = Mathf.Clamp(Zoom, MinZoom, MaxZoom);
-    }
-    //Controls the "smoothing" of the zoom level
-    void CameraSmoothZoom()
-    {
-        MyCam.fieldOfView = Mathf.Lerp(MyCam.fieldOfView, Zoom, Time.deltaTime * ZoomTime);
     }
 }
