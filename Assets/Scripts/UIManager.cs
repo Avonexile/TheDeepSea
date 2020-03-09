@@ -15,12 +15,16 @@ public class UIManager : MonoBehaviour
 
     private bool _photoMode;
 
-    public GameObject HUDObject;
+    public Animator HUDAnimator;
 
     public Animator BagIcon;
     public Animator CameraIcon;
 
+    public bool IsPressed;
+
     private bool _cursorState;
+
+    public float DPadCooldown;
 
     #region Properties
     public bool CursorState
@@ -56,7 +60,7 @@ public class UIManager : MonoBehaviour
             _photoMode = value;
 
             //If true, disable HUD, else enable
-            HUDObject.SetActive(!value);
+           ChangeHUDMode(value);
         }
     }
     #endregion
@@ -69,25 +73,51 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        float dpadX = Input.GetAxis("DPad X");
+        float dpadY = Input.GetAxis("DPad Y");
+ 
+        //if(Input.GetButtonDown("Test")) // X button XBox
+        //{
+        //    DownArrow.Play("ArrowClick");
+        //    CameraIcon.Play("SelectIcon");
+        //    PhotoMode = !PhotoMode;
+        //}
+        if(dpadY < 0 && !IsPressed)
         {
+            IsPressed = true;
+            StartCoroutine(Cooldown());
+
             DownArrow.Play("ArrowClick");
             CameraIcon.Play("SelectIcon");
             PhotoMode = !PhotoMode;
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if(dpadY > 0)
         {
             UpArrow.Play("ArrowClick");
             BagIcon.Play("SelectIcon");
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if(dpadX < 0)
         {
             LeftArrow.Play("ArrowClick");
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if(dpadX > 0)
         {
             RightArrow.Play("ArrowClick");
         }
         //Check for esc button
+    }
+    public void ChangeHUDMode (bool value)
+    {
+        HUDAnimator.SetBool("On", value);
+    }
+    IEnumerator Cooldown ()
+    {
+        while (IsPressed)
+        {
+            yield return new WaitForSeconds(DPadCooldown);
+
+            IsPressed = false;
+        }
+        StopCoroutine(Cooldown());
     }
 }
