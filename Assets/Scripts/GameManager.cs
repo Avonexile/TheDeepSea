@@ -22,5 +22,6 @@ public class GameManager : MonoBehaviour
     private void Awake ()
     {
         current = this;
+        UIManager.current.HideExitingGame = true;
     }
 }

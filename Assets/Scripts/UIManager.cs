@@ -87,7 +87,7 @@ public class UIManager : MonoBehaviour
     {
         current = this;
 
-        HideExitingGame = true;
+        //HideExitingGame = true;
         CursorState = false;//Test
     }
     // Update is called once per frame
@@ -127,9 +127,15 @@ public class UIManager : MonoBehaviour
     public void ResumeGame ()
     {
         //Unfreeze time/movement
+        HideExitingGame = true;
     }
     public void QuitGame()
     {
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
         Application.Quit();
     }
     #region HUD Related
