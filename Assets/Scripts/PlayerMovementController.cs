@@ -108,16 +108,19 @@ public class PlayerMovementController : MonoBehaviour
 
         IsSwimming = false;
 
-        //Open thread to keep track of the depth
- 
+        //TODO: Open thread to keep track of the depth
     }
     private void FixedUpdate()
     {
+        if (GameManager.current.BlockMovement)
+            return;
+
         CheckDepth();
         MovementInput();
 
         bool underwater = IsUnderwater;
         MyRB.useGravity = !underwater;
+
         if (!underwater)
             return;
 

@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     private bool _photoMode;
 
     public Animator HUDAnimator;
+    public Animator ExitGameAnimator;
 
     public Animator BagIcon;
     public Animator CameraIcon;
@@ -23,6 +24,8 @@ public class UIManager : MonoBehaviour
     public bool IsPressed;
 
     private bool _cursorState;
+
+    private bool _hideExitingGame;
 
     public float DPadCooldown;
 
@@ -60,7 +63,23 @@ public class UIManager : MonoBehaviour
             _photoMode = value;
 
             //If true, disable HUD, else enable
-           ChangeHUDMode(value);
+           ChangeHUDMode(HUDAnimator, value);
+        }
+    }
+    public bool HideExitingGame
+    {
+        get
+        {
+            return _hideExitingGame;
+        }
+        set
+        {
+            _hideExitingGame = value;
+
+            GameManager.current.BlockMovement = !value;
+
+            //If true, disable HUD, else enable
+            ChangeHUDMode(ExitGameAnimator, value);
         }
     }
     #endregion
@@ -68,6 +87,7 @@ public class UIManager : MonoBehaviour
     {
         current = this;
 
+        HideExitingGame = true;
         CursorState = false;//Test
     }
     // Update is called once per frame
@@ -75,14 +95,12 @@ public class UIManager : MonoBehaviour
     {
         float dpadX = Input.GetAxis("DPad X");
         float dpadY = Input.GetAxis("DPad Y");
- 
-        //if(Input.GetButtonDown("Test")) // X button XBox
-        //{
-        //    DownArrow.Play("ArrowClick");
-        //    CameraIcon.Play("SelectIcon");
-        //    PhotoMode = !PhotoMode;
-        //}
-        if(dpadY < 0 && !IsPressed)
+
+        if (Input.GetButtonDown("Start")) //Start button to exit game
+        {
+            HideExitingGame = !HideExitingGame;
+        }
+        if (dpadY < 0 && !IsPressed)
         {
             IsPressed = true;
             StartCoroutine(Cooldown());
@@ -94,7 +112,7 @@ public class UIManager : MonoBehaviour
         else if(dpadY > 0)
         {
             UpArrow.Play("ArrowClick");
-            BagIcon.Play("SelectIcon");
+            //BagIcon.Play("SelectIcon");
         }
         else if(dpadX < 0)
         {
@@ -106,9 +124,21 @@ public class UIManager : MonoBehaviour
         }
         //Check for esc button
     }
-    public void ChangeHUDMode (bool value)
+    public void ResumeGame ()
     {
-        HUDAnimator.SetBool("On", value);
+        //Unfreeze time/movement
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    #region HUD Related
+    public void ChangeHUDMode (Animator anim, bool value)
+    {
+        if (HUDAnimator.GetBool("On") && anim != HUDAnimator)
+            PhotoMode = !PhotoMode;
+
+        anim.SetBool("On", value);
     }
     IEnumerator Cooldown ()
     {
@@ -120,4 +150,5 @@ public class UIManager : MonoBehaviour
         }
         StopCoroutine(Cooldown());
     }
+    #endregion
 }
