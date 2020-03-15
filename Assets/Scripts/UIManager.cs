@@ -145,6 +145,9 @@ public class UIManager : MonoBehaviour
             PhotoMode = !PhotoMode;
 
         anim.SetBool("On", value);
+
+        if (anim == ExitGameAnimator)
+            anim.GetComponent<CanvasGroup>().interactable = !value;
     }
     IEnumerator Cooldown ()
     {

@@ -88,13 +88,13 @@ public class PlayerMovementController : MonoBehaviour
 
             if (value)
             {
-                animatorController.SetBool("Swimming", true);
+                animatorController.SetBool("Swimming", value);
                 
                 MovementSpeed = BaseWaterSpeed;
             }
             else
             {
-                animatorController.SetBool("Swimming", false);
+                animatorController.SetBool("Swimming", value);
                 MovementSpeed = BaseLandSpeed;
             }
         }
@@ -217,7 +217,7 @@ public class PlayerMovementController : MonoBehaviour
         if (transform.position.y < 0f)
             IsSwimming = true;
 
-        else if (transform.position.y > 1f)
+        else if (transform.position.y > .5f)
             IsSwimming = false;
 
         Depth = transform.position.y;
@@ -225,17 +225,13 @@ public class PlayerMovementController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground" && IsJumping)
-            IsJumping = false;
-    }
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.gameObject.tag == "Trigger" && IsSwimming) { }
-        //Play climbing animation
-
-        if (collider.gameObject.tag == "Trigger" && !IsSwimming)
         {
-            Debug.Log("swim");
-            animatorController.Play("RunToDive");
+            if (Depth > 0)
+                animatorController.SetBool("Swimming", false);
+
+            IsJumping = false;
+
+            Debug.Log("Swimming?");
         }
     }
 }

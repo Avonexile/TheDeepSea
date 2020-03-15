@@ -22,6 +22,7 @@ public class FishSpawnerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+
         FishSpawner spawner = (FishSpawner)target;
 
         if (GUILayout.Button("Add fish"))
