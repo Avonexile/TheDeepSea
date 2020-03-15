@@ -112,6 +112,7 @@ public class PlayerMovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        Handheld.Vibrate();
         if (GameManager.current.BlockMovement)
             return;
 
@@ -167,7 +168,6 @@ public class PlayerMovementController : MonoBehaviour
                 direction += MyCam.forward;
 
             //IF YOU PRESS THE JUMP BUTTON JUMP
-            //JUMP
             if (Input.GetButton("Jump"))
                 Jump();
         }
@@ -205,12 +205,17 @@ public class PlayerMovementController : MonoBehaviour
         Debug.Log("Down");
         if (IsUnderwater)
             MyRB.AddForce(new Vector3(0, -MyRB.velocity.y - _jumpHeight, 0), ForceMode.Acceleration);
+
+        //Swim down rotation
+
     }
     private void SwimUp ()
     {
         Debug.Log("Up");
         if (IsUnderwater)
             MyRB.AddForce(new Vector3(0, MyRB.velocity.y + _jumpHeight, 0), ForceMode.Acceleration);
+
+        //Swim up rotation
     }
     private void CheckDepth()
     {
@@ -230,8 +235,6 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", false);
 
             IsJumping = false;
-
-            Debug.Log("Swimming?");
         }
     }
 }
