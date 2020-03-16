@@ -112,7 +112,6 @@ public class PlayerMovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Handheld.Vibrate();
         if (GameManager.current.BlockMovement)
             return;
 
