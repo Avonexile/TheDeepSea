@@ -55,7 +55,7 @@ public class TreasureFinder : MonoBehaviour
 
         while (FindingTreasure)
         {
-            time += Time.deltaTime;
+            time += Time.deltaTime * (1 - (distance / 10));
 
             GamePad.SetVibration(0, 0, controllerPulseCurve.Evaluate(time));
 
