@@ -9,11 +9,7 @@ public class TreasureFinder : MonoBehaviour
 
     private float distance;
 
-    public float intensity;
-
     private bool FindingTreasure;
-
-    public float pulse, cooldown;
 
 
     public AnimationCurve controllerPulseCurve;
@@ -55,7 +51,8 @@ public class TreasureFinder : MonoBehaviour
 
         while (FindingTreasure)
         {
-            time += Time.deltaTime * (1 - (distance / 10));
+            time += Time.deltaTime * (1 - (distance / 10)); //* (1 - (distance / 10)
+            Debug.Log(time);
 
             GamePad.SetVibration(0, 0, controllerPulseCurve.Evaluate(time));
 

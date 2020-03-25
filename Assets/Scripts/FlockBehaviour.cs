@@ -31,6 +31,14 @@ public class FlockBehaviour : MonoBehaviour
         spline = GetComponent<SplineWalker>();
         duration = spline.duration;
         GetComponent<Collider>().isTrigger = true;
+
+        Keyframe[] keyframes = escapeSpeedCurve.keys;
+
+        keyframes[0].value = duration;
+        keyframes[1].value = duration * 0.8f;
+        keyframes[2].value = duration + 1;
+
+        escapeSpeedCurve.keys = keyframes;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -61,7 +69,7 @@ public class FlockBehaviour : MonoBehaviour
 
             spline.duration = escapeSpeedCurve.Evaluate(time);
 
-            if (spline.duration > 20)
+            if (spline.duration > duration)
                 _speeding = false;
 
             yield return null;
