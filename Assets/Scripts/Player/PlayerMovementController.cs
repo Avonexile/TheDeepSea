@@ -246,6 +246,17 @@ public class PlayerMovementController : MonoBehaviour
         //TODO: Check if it has been read within a range of time, so that when you exit you dont immediatly read it again
         if (collision.gameObject.tag == "Treasure")
         {
+            Clue clue = collision.gameObject.GetComponent<Clue>();
+
+            if (clue.HasBeenRead)
+                return;
+
+            TreasureFinder.current.TurnOffVibration();
+            collision.gameObject.SetActive(false);
+            
+            UIManager.current.ChangeClueText(clue.Text);
+            clue.HasBeenRead = true;
+
             UIManager.current.ReadingClue = true;
         }
     }

@@ -5,6 +5,8 @@ using XInputDotNetPure;
 
 public class TreasureFinder : MonoBehaviour
 {
+    public static TreasureFinder current;
+
     private GameObject treasure;
 
     private float distance;
@@ -14,6 +16,10 @@ public class TreasureFinder : MonoBehaviour
 
     public AnimationCurve controllerPulseCurve;
 
+    private void Awake()
+    {
+        current = this;
+    }
     private void FixedUpdate()
     {
         if (FindingTreasure && treasure != null)
@@ -34,6 +40,12 @@ public class TreasureFinder : MonoBehaviour
             //Start vibrating
             StartCoroutine(Finding());
         }
+    }
+    public void TurnOffVibration ()
+    {
+        FindingTreasure = false;
+        treasure = null;
+        StopCoroutine(Finding());
     }
     private void OnTriggerExit(Collider other)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class UIManager : MonoBehaviour
     public EventSystem EventSystemClass;
     
     public GameObject[] FirstSelectedUI;
+
+    public TextMeshProUGUI ClueText;
 
     [Header("Wheel Options")]
     public Animator UpArrow;
@@ -166,7 +169,6 @@ public class UIManager : MonoBehaviour
     }
     public void ResumeGame ()
     {
-        Debug.Log("Resume game");
         //Unfreeze time/movement
         if (!HideExitingGame)
             HideExitingGame = true;
@@ -204,6 +206,10 @@ public class UIManager : MonoBehaviour
             IsPressed = false;
         }
         StopCoroutine(Cooldown());
+    }
+    public void ChangeClueText (string text)
+    {
+        ClueText.text = text;
     }
     #endregion
 }

@@ -2195,6 +2195,7 @@ MonoBehaviour:
   FirstSelectedUI:
   - {fileID: 1327697243}
   - {fileID: 119892377}
+  ClueText: {fileID: 832925259}
   UpArrow: {fileID: 1568733507}
   DownArrow: {fileID: 1568733506}
   LeftArrow: {fileID: 1568733505}
@@ -2231,6 +2232,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3489dc8fcd88c4a45bc88681bb1ec267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &832925259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4576162853328978894, guid: d64da43628418e248b0f8870943a910c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568733500}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &833698165
@@ -4893,6 +4906,31 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4576162853328978894, guid: d64da43628418e248b0f8870943a910c,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038836521124861279, guid: d64da43628418e248b0f8870943a910c,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038836521124861279, guid: d64da43628418e248b0f8870943a910c,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038836521124861279, guid: d64da43628418e248b0f8870943a910c,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038836521124861279, guid: d64da43628418e248b0f8870943a910c,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038836521124861279, guid: d64da43628418e248b0f8870943a910c,
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
@@ -12723,6 +12761,7 @@ GameObject:
   - component: {fileID: 2195409923224388712}
   - component: {fileID: 5569581488319740049}
   - component: {fileID: 6158662416506915918}
+  - component: {fileID: 6158662416506915919}
   m_Layer: 0
   m_Name: Book
   m_TagString: Treasure
@@ -12743,6 +12782,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.3274758, y: 2.7642357, z: 0.36432773}
   m_Center: {x: -0.98259914, y: -1.296121, z: -0.00018996745}
+--- !u!114 &6158662416506915919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6158662416506915917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c70e1e7bb03fd24f9c0bc08e917fc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HasBeenRead: 0
+  Text: "Dear Diary, Days have been hard since my husband and child died. My psychologist
+    advised me to write down my thoughts to calm me down, but why did it have to be
+    this way, there wasn\u2019t even anything left behind of them, I couldn\u2019t
+    even send them off.  "
 --- !u!4 &7146279185892736606
 Transform:
   m_ObjectHideFlags: 0
