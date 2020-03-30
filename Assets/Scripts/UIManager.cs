@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager current;
+
+    public EventSystem EventSystemClass;
+    
+    public GameObject[] FirstSelectedUI;
 
     [Header("Wheel Options")]
     public Animator UpArrow;
@@ -17,6 +22,8 @@ public class UIManager : MonoBehaviour
 
     public Animator HUDAnimator;
     public Animator ExitGameAnimator;
+    public Animator ClueAnimator;
+    public Animator TitleScreen;
 
     public Animator BagIcon;
     public Animator CameraIcon;
@@ -26,6 +33,8 @@ public class UIManager : MonoBehaviour
     private bool _cursorState;
 
     private bool _hideExitingGame;
+
+    private bool _readingClue;
 
     public float DPadCooldown;
 
@@ -76,10 +85,34 @@ public class UIManager : MonoBehaviour
         {
             _hideExitingGame = value;
 
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[0];
+
+            //Blocks the player movement
             GameManager.current.BlockMovement = !value;
 
             //If true, disable HUD, else enable
             ChangeHUDMode(ExitGameAnimator, value);
+        }
+    }
+    public bool ReadingClue
+    {
+        get
+        {
+            return _readingClue;
+        }
+        set
+        {
+            _readingClue = value;
+
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
+
+            //Blocks the player movement
+            GameManager.current.BlockMovement = value;
+
+            //If true, disable HUD, else enable
+            ChangeHUDMode(ClueAnimator, !value);
+
+            
         }
     }
     #endregion
@@ -88,15 +121,24 @@ public class UIManager : MonoBehaviour
         current = this;
 
         //HideExitingGame = true;
+
+        ClueAnimator.SetBool("On", true);
         CursorState = false;//Test
     }
+    private void Start()
+    {
+        TitleScreen.SetBool("Hide", true);
+    }
+
     // Update is called once per frame
     void Update()
     {
+        //Dpad button inputs
         float dpadX = Input.GetAxis("DPad X");
         float dpadY = Input.GetAxis("DPad Y");
 
-        if (Input.GetButtonDown("Start")) //Start button to exit game
+        //Start button to exit game
+        if (Input.GetButtonDown("Start")) 
         {
             HideExitingGame = !HideExitingGame;
         }
@@ -112,7 +154,6 @@ public class UIManager : MonoBehaviour
         else if(dpadY > 0)
         {
             UpArrow.Play("ArrowClick");
-            //BagIcon.Play("SelectIcon");
         }
         else if(dpadX < 0)
         {
@@ -122,23 +163,27 @@ public class UIManager : MonoBehaviour
         {
             RightArrow.Play("ArrowClick");
         }
-        //Check for esc button
     }
     public void ResumeGame ()
     {
+        Debug.Log("Resume game");
         //Unfreeze time/movement
-        HideExitingGame = true;
+        if (!HideExitingGame)
+            HideExitingGame = true;
+
+        if (ReadingClue)
+            ReadingClue = false;
     }
+    //Quitting the game, stop editor if playing in editor
     public void QuitGame()
     {
-
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-
         Application.Quit();
     }
     #region HUD Related
+    //Change the visibility of HUD Elements
     public void ChangeHUDMode (Animator anim, bool value)
     {
         if (HUDAnimator.GetBool("On") && anim != HUDAnimator)
@@ -149,6 +194,7 @@ public class UIManager : MonoBehaviour
         if (anim == ExitGameAnimator)
             anim.GetComponent<CanvasGroup>().interactable = !value;
     }
+    //Fix for multi input values from dpad
     IEnumerator Cooldown ()
     {
         while (IsPressed)

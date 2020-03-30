@@ -50,21 +50,13 @@ public class FlockBehaviour : MonoBehaviour
             StartCoroutine(Escape());
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            //_speeding = false;
-        }
-    }
-
+    //The escape reaction to the player
     private IEnumerator Escape ()
     {
         float time = 0;
 
         while(_speeding)
         {
-            Debug.Log("Run");
             time += Time.deltaTime;
 
             spline.duration = escapeSpeedCurve.Evaluate(time);

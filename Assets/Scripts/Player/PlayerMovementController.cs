@@ -128,6 +128,7 @@ public class PlayerMovementController : MonoBehaviour
         velocity *= velocityShrinkSpeedUnderwater;
         MyRB.velocity = velocity;
     }
+    //Land and water movement and directional swimming
     private void MovementInput()
     {
         Vector3 direction = new Vector3();
@@ -135,6 +136,7 @@ public class PlayerMovementController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         float horizontal = -Input.GetAxis("Horizontal");
 
+        //If the player is underwater
         if (IsUnderwater)
         {
             if (horizontal < 0)
@@ -156,7 +158,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             MyCam.forward = new Vector3(MyCam.forward.x, 0, MyCam.forward.z);
 
-            //WORKS BUT UGLY
+            //WORKS BUT UGLY. TODO: Check for improvement
             if (horizontal < 0)
                 direction += MyCam.right;
             if (horizontal > 0)
@@ -166,7 +168,7 @@ public class PlayerMovementController : MonoBehaviour
             if (vertical > 0)
                 direction += MyCam.forward;
 
-            //IF YOU PRESS THE JUMP BUTTON JUMP
+            //Makes player jump in another function
             if (Input.GetButton("Jump"))
                 Jump();
         }
@@ -177,8 +179,10 @@ public class PlayerMovementController : MonoBehaviour
         //Rotate player
         if (direction != Vector3.zero)
         {
+            //Animate player
             animatorController.SetBool("Walking", true);
 
+            //Rotate player according to direction input
             if (transform.forward != direction)
             {
                 transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * overTime);
@@ -186,9 +190,11 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
+            //Stop walking animation
             animatorController.SetBool("Walking", false);
         }
     }
+    //Jumping on land
     private void Jump()
     {
         if (IsJumping)
@@ -199,15 +205,16 @@ public class PlayerMovementController : MonoBehaviour
 
         MyRB.AddForce(new Vector3(0, MyRB.velocity.y + _jumpHeight, 0), ForceMode.Impulse);
     }
+    //Swimming down 
     private void SwimDown ()
     {
-        Debug.Log("Down");
         if (IsUnderwater)
             MyRB.AddForce(new Vector3(0, -MyRB.velocity.y - _jumpHeight, 0), ForceMode.Acceleration);
 
         //Swim down rotation
 
     }
+    //Swimming up
     private void SwimUp ()
     {
         Debug.Log("Up");
@@ -234,6 +241,12 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", false);
 
             IsJumping = false;
+        }
+
+        //TODO: Check if it has been read within a range of time, so that when you exit you dont immediatly read it again
+        if (collision.gameObject.tag == "Treasure")
+        {
+            UIManager.current.ReadingClue = true;
         }
     }
 }
