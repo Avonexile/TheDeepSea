@@ -91,11 +91,17 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", value);
                 
                 MovementSpeed = BaseWaterSpeed;
+
+                //Change audio
+                AudioManager.current.ChangeHighPass(1500f, 4f);
             }
             else
             {
                 animatorController.SetBool("Swimming", value);
                 MovementSpeed = BaseLandSpeed;
+
+                //Change Audio
+                AudioManager.current.ChangeHighPass(10f, 1f);
             }
         }
     }
