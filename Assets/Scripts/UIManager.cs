@@ -107,15 +107,20 @@ public class UIManager : MonoBehaviour
         {
             _readingClue = value;
 
+            //Set the UI selection to the close button
             EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
+
+            //Stop animation or play animation
+            PlayerMovementController.current.animatorController.enabled = !value;
+
+            //Block input from dpad and start button
+            GameManager.current.BlockDpad = value;
 
             //Blocks the player movement
             GameManager.current.BlockMovement = value;
 
             //If true, disable HUD, else enable
             ChangeHUDMode(ClueAnimator, !value);
-
-            
         }
     }
     #endregion
@@ -123,9 +128,8 @@ public class UIManager : MonoBehaviour
     {
         current = this;
 
-        //HideExitingGame = true;
-
         ClueAnimator.SetBool("On", true);
+
         CursorState = false;//Test
     }
     private void Start()
@@ -140,31 +144,30 @@ public class UIManager : MonoBehaviour
         float dpadX = Input.GetAxis("DPad X");
         float dpadY = Input.GetAxis("DPad Y");
 
-        //Start button to exit game
-        if (Input.GetButtonDown("Start")) 
+        //If dpad and start input isnt blocked
+        if (!GameManager.current.BlockDpad)
         {
-            HideExitingGame = !HideExitingGame;
-        }
-        if (dpadY < 0 && !IsPressed)
-        {
-            IsPressed = true;
-            StartCoroutine(Cooldown());
+            //Start button to exit game
+            if (Input.GetButtonDown("Start"))
+                HideExitingGame = !HideExitingGame;
 
-            DownArrow.Play("ArrowClick");
-            CameraIcon.Play("SelectIcon");
-            PhotoMode = !PhotoMode;
-        }
-        else if(dpadY > 0)
-        {
-            UpArrow.Play("ArrowClick");
-        }
-        else if(dpadX < 0)
-        {
-            LeftArrow.Play("ArrowClick");
-        }
-        else if(dpadX > 0)
-        {
-            RightArrow.Play("ArrowClick");
+            if (dpadY < 0 && !IsPressed)
+            {
+                IsPressed = true;
+                StartCoroutine(Cooldown());
+
+                DownArrow.Play("ArrowClick");
+                CameraIcon.Play("SelectIcon");
+                PhotoMode = !PhotoMode;
+            }
+            else if (dpadY > 0)
+                UpArrow.Play("ArrowClick");
+
+            else if (dpadX < 0)
+                LeftArrow.Play("ArrowClick");
+
+            else if (dpadX > 0)
+                RightArrow.Play("ArrowClick");
         }
     }
     public void ResumeGame ()
@@ -175,6 +178,7 @@ public class UIManager : MonoBehaviour
 
         if (ReadingClue)
             ReadingClue = false;
+
     }
     //Quitting the game, stop editor if playing in editor
     public void QuitGame()
@@ -207,6 +211,7 @@ public class UIManager : MonoBehaviour
         }
         StopCoroutine(Cooldown());
     }
+    //Changes the text on the UI based on the text variable in the clue script on the object
     public void ChangeClueText (string text)
     {
         ClueText.text = text;

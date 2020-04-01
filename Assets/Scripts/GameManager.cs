@@ -19,6 +19,19 @@ public class GameManager : MonoBehaviour
             _blockMovement = value;
         }
     }
+    private bool _blockDpad;
+
+    public bool BlockDpad
+    {
+        get
+        {
+            return _blockDpad;
+        }
+        set
+        {
+            _blockDpad = value;
+        }
+    }
     private void Awake ()
     {
         current = this;

@@ -7,6 +7,7 @@ using System.Threading;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    public static PlayerMovementController current;
     //TESTS
     public float SwimmingSpeedModifier; //TODO: Place this in the modifier list
     public float LandSpeedModifier; //TODO: Place this in the modifier list
@@ -109,6 +110,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
+        current = this;
+
         MyCam = GameObject.FindObjectOfType<CameraController>().transform;
         MyRB = GetComponent<Rigidbody>();
 
