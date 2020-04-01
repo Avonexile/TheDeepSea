@@ -23,18 +23,19 @@ public class UIManager : MonoBehaviour
 
     private bool _photoMode;
 
+    [Header("Fading Animators")]
     public Animator HUDAnimator;
     public Animator ExitGameAnimator;
     public Animator ClueAnimator;
     public Animator TitleScreen;
 
+    [Header("Icon Animations")]
     public Animator BagIcon;
     public Animator CameraIcon;
 
-    public bool IsPressed;
+    private bool IsPressed;
 
     private bool _cursorState;
-
     private bool _hideExitingGame;
 
     private bool _readingClue;
@@ -124,6 +125,7 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
+    //Setup for start
     private void Awake ()
     {
         current = this;
@@ -136,8 +138,7 @@ public class UIManager : MonoBehaviour
     {
         TitleScreen.SetBool("Hide", true);
     }
-
-    // Update is called once per frame
+    //Checks for input on dpad or start
     void Update()
     {
         //Dpad button inputs
@@ -170,6 +171,7 @@ public class UIManager : MonoBehaviour
                 RightArrow.Play("ArrowClick");
         }
     }
+    //Resume game after trying to exit game or reading clues
     public void ResumeGame ()
     {
         //Unfreeze time/movement

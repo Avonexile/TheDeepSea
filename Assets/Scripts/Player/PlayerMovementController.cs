@@ -31,9 +31,11 @@ public class PlayerMovementController : MonoBehaviour
     private bool IsUnderwater =>
             transform.position.y < 0;
 
+    //Speed with which you go down in the water
     public float velocityShrinkSpeedUnderwater = .95f;
 
-    public float overTime;
+    //Character rotation over time
+    public float RotateOverTime;
 
     #region Properties
     public float MovementSpeed
@@ -121,18 +123,21 @@ public class PlayerMovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Check for movement block
         if (GameManager.current.BlockMovement)
             return;
 
         CheckDepth();
         MovementInput();
 
+        //Check if underwater
         bool underwater = IsUnderwater;
         MyRB.useGravity = !underwater;
 
         if (!underwater)
             return;
 
+        //Slowly decrease velocity, giving a floating affect in water
         var velocity = MyRB.velocity;
         velocity *= velocityShrinkSpeedUnderwater;
         MyRB.velocity = velocity;
@@ -165,6 +170,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
+            //To make sure character doesn't fly or go down
             MyCam.forward = new Vector3(MyCam.forward.x, 0, MyCam.forward.z);
 
             //WORKS BUT UGLY. TODO: Check for improvement
@@ -182,7 +188,7 @@ public class PlayerMovementController : MonoBehaviour
                 Jump();
         }
         
-
+        //Movement
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
 
         //Rotate player
@@ -194,7 +200,7 @@ public class PlayerMovementController : MonoBehaviour
             //Rotate player according to direction input
             if (transform.forward != direction)
             {
-                transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * overTime);
+                transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * RotateOverTime);
             }
         }
         else
@@ -232,6 +238,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Swim up rotation
     }
+    //Updates the depth of the character
     private void CheckDepth()
     {
         if (transform.position.y < 0f)
@@ -251,8 +258,6 @@ public class PlayerMovementController : MonoBehaviour
 
             IsJumping = false;
         }
-
-        //TODO: Check if it has been read within a range of time, so that when you exit you dont immediatly read it again
         if (collision.gameObject.tag == "Treasure")
         {
             Clue clue = collision.gameObject.GetComponent<Clue>();

@@ -7,20 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager current;
 
     private bool _blockMovement;
-
-    public bool BlockMovement
-    {
-        get
-        {
-            return _blockMovement;
-        }
-        set
-        {
-            _blockMovement = value;
-        }
-    }
     private bool _blockDpad;
 
+    #region Properties
+    //Value that can be accessed from here 
     public bool BlockDpad
     {
         get
@@ -32,6 +22,19 @@ public class GameManager : MonoBehaviour
             _blockDpad = value;
         }
     }
+    //Value that can be accessed from here 
+    public bool BlockMovement
+    {
+        get
+        {
+            return _blockMovement;
+        }
+        set
+        {
+            _blockMovement = value;
+        }
+    }
+    #endregion
     private void Awake ()
     {
         current = this;

@@ -8,17 +8,39 @@ public class CameraController : MonoBehaviour
 
     private Camera MyCam;
 
-    public float Zoom = 25f; //TODO: Make property
-
     private float MinRotateClamp = -85f;
     private float MaxRotateClamp = 85f;
 
     private float MouseX;
     private float MouseY;
 
-    public float RotationSpeed = 4f; //TODO: Make property
+    private float _rotationSpeed = 4f;
+    private float _zoom = 25f;
 
-
+    #region Properties
+    public float RotationSpeed
+    {
+        get
+        {
+            return _rotationSpeed;
+        }
+        set
+        {
+            _rotationSpeed = value;
+        }
+    }
+    public float Zoom
+    {
+        get
+        {
+            return _zoom;
+        }
+        set
+        {
+            _zoom = value;
+        }
+    }
+    #endregion
     void Awake ()
     {
         MyCam = GetComponent<Camera>();
@@ -27,25 +49,11 @@ public class CameraController : MonoBehaviour
     {
         CameraRotation();
     }
-    //void CheckForObjectInView ()
-    //{
-    //    RaycastHit hit;
-
-    //    if(Physics.Raycast(transform.position, FocusPoint.position, out hit))
-    //    {
-    //        if(hit.transform.tag != "Player")
-    //        {
-    //            MeshRenderer MR = hit.transform.GetComponent<MeshRenderer>();
-    //            MR.material.color = new Color(MR.material.color.r, MR.material.color.g, MR.material.color.b, 0.1f);
-    //            Debug.Log("Found one");
-    //        }
-    //    }
-    //}
     //Controls camera rotation and focus point
     void CameraRotation()
     {
-        MouseX += Input.GetAxis("Mouse X Cont") * RotationSpeed;
-        MouseY -= Input.GetAxis("Mouse Y Cont") * RotationSpeed;
+        MouseX += Input.GetAxis("Mouse X Cont") * _rotationSpeed;
+        MouseY -= Input.GetAxis("Mouse Y Cont") * _rotationSpeed;
 
         MouseY = Mathf.Clamp(MouseY, MinRotateClamp, MaxRotateClamp);
 

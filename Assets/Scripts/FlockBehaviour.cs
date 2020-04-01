@@ -32,6 +32,7 @@ public class FlockBehaviour : MonoBehaviour
         duration = spline.duration;
         GetComponent<Collider>().isTrigger = true;
 
+        //Changes the animation curve based on duration value
         Keyframe[] keyframes = escapeSpeedCurve.keys;
 
         keyframes[0].value = duration;

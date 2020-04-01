@@ -5,20 +5,19 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+	//Singleton
 	public static AudioManager current;
 
 	//soundtracks	BGM
 	public List<AudioClip> AudioClips = new List<AudioClip>();
 
-	//audio source
+	//Audio source
 	public AudioSource MyAudioSource;
 
+	//Some high pass filter
 	public AudioHighPassFilter HighPass;
 
-	//volume
-	private bool _muteBGM;
-
-	private int SongIndex;
+	private int _songIndex;
 
 	public float LerpSpeed;
 
@@ -43,29 +42,23 @@ public class AudioManager : MonoBehaviour
 	private void Update()
 	{
 		if (!MyAudioSource.isPlaying)
-			ListConverter(SongIndex++);
+			ListConverter(_songIndex++);
 	}
+	//Changes the cutoff frequency and highpass resonance
 	public void ChangeHighPass (float cutFreq, float resonance)
 	{
 		HighPass.cutoffFrequency = Mathf.Lerp(HighPass.cutoffFrequency, cutFreq, LerpSpeed);
 
 		HighPass.highpassResonanceQ = Mathf.Lerp(HighPass.highpassResonanceQ, resonance, LerpSpeed);
 	}
+	//Chooses song from song list and continues after ending last song
 	public void ListConverter(int number)
 	{
 		if (number > AudioClips.Count)
-			SongIndex = 0;
+			_songIndex = 0;
 
-		MyAudioSource.clip = AudioClips[SongIndex];
-		PlayMusic(AudioClips[SongIndex]);
-	}
-	public void PlayMusic(AudioClip music)
-	{
+		MyAudioSource.clip = AudioClips[_songIndex];
+
 		MyAudioSource.Play();
-	}
-	public void Mute(bool active)
-	{
-		MuteBGM = !active;
-		MyAudioSource.mute = MuteBGM;
 	}
 }
