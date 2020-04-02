@@ -22,27 +22,26 @@ public class AudioManager : MonoBehaviour
 	public float LerpSpeed;
 
     #region Properties
-    public bool MuteBGM
+	public int SongIndex
 	{
 		get
 		{
-			return _muteBGM;
+			return _songIndex;
 		}
 		set
 		{
-			_muteBGM = value;
+			_songIndex = value;
 		}
 	}
-	#endregion
-
-	private void Awake()
+    #endregion
+    private void Awake()
 	{
 		current = this;
 	}
 	private void Update()
 	{
 		if (!MyAudioSource.isPlaying)
-			ListConverter(_songIndex++);
+			ListConverter(SongIndex++);
 	}
 	//Changes the cutoff frequency and highpass resonance
 	public void ChangeHighPass (float cutFreq, float resonance)
@@ -55,9 +54,9 @@ public class AudioManager : MonoBehaviour
 	public void ListConverter(int number)
 	{
 		if (number > AudioClips.Count)
-			_songIndex = 0;
+			SongIndex = 0;
 
-		MyAudioSource.clip = AudioClips[_songIndex];
+		MyAudioSource.clip = AudioClips[SongIndex];
 
 		MyAudioSource.Play();
 	}

@@ -97,6 +97,8 @@ public class PlayerMovementController : MonoBehaviour
 
                 //Change audio
                 AudioManager.current.ChangeHighPass(1500f, 4f);
+
+                RotateOverTime = 1.1f;
             }
             else
             {
@@ -105,6 +107,8 @@ public class PlayerMovementController : MonoBehaviour
 
                 //Change Audio
                 AudioManager.current.ChangeHighPass(10f, 1f);
+
+                RotateOverTime = 10f;
             }
         }
     }

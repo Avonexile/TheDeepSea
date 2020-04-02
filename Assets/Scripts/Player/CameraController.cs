@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
     private float MouseY;
 
     private float _rotationSpeed = 4f;
-    private float _zoom = 25f;
+    private float _zoom = 20f;
 
     #region Properties
     public float RotationSpeed
