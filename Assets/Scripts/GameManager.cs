@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private bool _blockDpad;
 
     #region Properties
-    //Value that can be accessed from here 
+    //Value for blocking the input of the dpad
     public bool BlockDpad
     {
         get
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
             _blockDpad = value;
         }
     }
-    //Value that can be accessed from here 
+    //Value for blocking the player movement
     public bool BlockMovement
     {
         get
