@@ -7,6 +7,7 @@ using System.Threading;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    public static PlayerMovementController current;
     //TESTS
     public float SwimmingSpeedModifier; //TODO: Place this in the modifier list
     public float LandSpeedModifier; //TODO: Place this in the modifier list
@@ -30,9 +31,11 @@ public class PlayerMovementController : MonoBehaviour
     private bool IsUnderwater =>
             transform.position.y < 0;
 
+    //Speed with which you go down in the water
     public float velocityShrinkSpeedUnderwater = .95f;
 
-    public float overTime;
+    //Character rotation over time
+    public float RotateOverTime;
 
     #region Properties
     public float MovementSpeed
@@ -91,11 +94,21 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", value);
                 
                 MovementSpeed = BaseWaterSpeed;
+
+                //Change audio
+                AudioManager.current.ChangeHighPass(1500f, 4f);
+
+                RotateOverTime = 1.1f;
             }
             else
             {
                 animatorController.SetBool("Swimming", value);
                 MovementSpeed = BaseLandSpeed;
+
+                //Change Audio
+                AudioManager.current.ChangeHighPass(10f, 1f);
+
+                RotateOverTime = 10f;
             }
         }
     }
@@ -103,6 +116,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
+        current = this;
+
         MyCam = GameObject.FindObjectOfType<CameraController>().transform;
         MyRB = GetComponent<Rigidbody>();
 
@@ -112,22 +127,26 @@ public class PlayerMovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Check for movement block
         if (GameManager.current.BlockMovement)
             return;
 
         CheckDepth();
         MovementInput();
 
+        //Check if underwater
         bool underwater = IsUnderwater;
         MyRB.useGravity = !underwater;
 
         if (!underwater)
             return;
 
+        //Slowly decrease velocity, giving a floating affect in water
         var velocity = MyRB.velocity;
         velocity *= velocityShrinkSpeedUnderwater;
         MyRB.velocity = velocity;
     }
+    //Land and water movement and directional swimming
     private void MovementInput()
     {
         Vector3 direction = new Vector3();
@@ -135,6 +154,7 @@ public class PlayerMovementController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         float horizontal = -Input.GetAxis("Horizontal");
 
+        //If the player is underwater
         if (IsUnderwater)
         {
             if (horizontal < 0)
@@ -154,9 +174,10 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
+            //To make sure character doesn't fly or go down
             MyCam.forward = new Vector3(MyCam.forward.x, 0, MyCam.forward.z);
 
-            //WORKS BUT UGLY
+            //WORKS BUT UGLY. TODO: Check for improvement
             if (horizontal < 0)
                 direction += MyCam.right;
             if (horizontal > 0)
@@ -166,29 +187,33 @@ public class PlayerMovementController : MonoBehaviour
             if (vertical > 0)
                 direction += MyCam.forward;
 
-            //IF YOU PRESS THE JUMP BUTTON JUMP
+            //Makes player jump in another function
             if (Input.GetButton("Jump"))
                 Jump();
         }
         
-
+        //Movement
         transform.position = transform.position + direction * Time.deltaTime * MovementSpeed;
 
         //Rotate player
         if (direction != Vector3.zero)
         {
+            //Animate player
             animatorController.SetBool("Walking", true);
 
+            //Rotate player according to direction input
             if (transform.forward != direction)
             {
-                transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * overTime);
+                transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * RotateOverTime);
             }
         }
         else
         {
+            //Stop walking animation
             animatorController.SetBool("Walking", false);
         }
     }
+    //Jumping on land
     private void Jump()
     {
         if (IsJumping)
@@ -199,15 +224,16 @@ public class PlayerMovementController : MonoBehaviour
 
         MyRB.AddForce(new Vector3(0, MyRB.velocity.y + _jumpHeight, 0), ForceMode.Impulse);
     }
+    //Swimming down 
     private void SwimDown ()
     {
-        Debug.Log("Down");
         if (IsUnderwater)
             MyRB.AddForce(new Vector3(0, -MyRB.velocity.y - _jumpHeight, 0), ForceMode.Acceleration);
 
         //Swim down rotation
 
     }
+    //Swimming up
     private void SwimUp ()
     {
         Debug.Log("Up");
@@ -216,6 +242,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Swim up rotation
     }
+    //Updates the depth of the character
     private void CheckDepth()
     {
         if (transform.position.y < 0f)
@@ -234,6 +261,21 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", false);
 
             IsJumping = false;
+        }
+        if (collision.gameObject.tag == "Treasure")
+        {
+            Clue clue = collision.gameObject.GetComponent<Clue>();
+
+            if (clue.HasBeenRead)
+                return;
+
+            TreasureFinder.current.TurnOffVibration();
+            collision.gameObject.SetActive(false);
+            
+            UIManager.current.ChangeClueText(clue.Text);
+            clue.HasBeenRead = true;
+
+            UIManager.current.ReadingClue = true;
         }
     }
 }

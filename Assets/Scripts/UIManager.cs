@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager current;
+
+    public EventSystem EventSystemClass;
+    
+    public GameObject[] FirstSelectedUI;
+
+    public TextMeshProUGUI ClueText;
 
     [Header("Wheel Options")]
     public Animator UpArrow;
@@ -15,17 +23,22 @@ public class UIManager : MonoBehaviour
 
     private bool _photoMode;
 
+    [Header("Fading Animators")]
     public Animator HUDAnimator;
     public Animator ExitGameAnimator;
+    public Animator ClueAnimator;
+    public Animator TitleScreen;
 
+    [Header("Icon Animations")]
     public Animator BagIcon;
     public Animator CameraIcon;
 
-    public bool IsPressed;
+    private bool IsPressed;
 
     private bool _cursorState;
-
     private bool _hideExitingGame;
+
+    private bool _readingClue;
 
     public float DPadCooldown;
 
@@ -76,69 +89,109 @@ public class UIManager : MonoBehaviour
         {
             _hideExitingGame = value;
 
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[0];
+
+            //Blocks the player movement
             GameManager.current.BlockMovement = !value;
 
             //If true, disable HUD, else enable
             ChangeHUDMode(ExitGameAnimator, value);
         }
     }
+    public bool ReadingClue
+    {
+        get
+        {
+            return _readingClue;
+        }
+        set
+        {
+            _readingClue = value;
+
+            //Set the UI selection to the close button
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
+
+            //Stop animation or play animation
+            PlayerMovementController.current.animatorController.enabled = !value;
+
+            //Block input from dpad and start button
+            GameManager.current.BlockDpad = value;
+
+            //Blocks the player movement
+            GameManager.current.BlockMovement = value;
+
+            //If true, disable HUD, else enable
+            ChangeHUDMode(ClueAnimator, !value);
+        }
+    }
     #endregion
+    //Setup for start
     private void Awake ()
     {
         current = this;
 
-        //HideExitingGame = true;
+        ClueAnimator.SetBool("On", true);
+
         CursorState = false;//Test
     }
-    // Update is called once per frame
+    private void Start()
+    {
+        TitleScreen.SetBool("Hide", true);
+    }
+    //Checks for input on dpad or start
     void Update()
     {
+        //Dpad button inputs
         float dpadX = Input.GetAxis("DPad X");
         float dpadY = Input.GetAxis("DPad Y");
 
-        if (Input.GetButtonDown("Start")) //Start button to exit game
+        //If dpad and start input isnt blocked
+        if (!GameManager.current.BlockDpad)
         {
-            HideExitingGame = !HideExitingGame;
-        }
-        if (dpadY < 0 && !IsPressed)
-        {
-            IsPressed = true;
-            StartCoroutine(Cooldown());
+            //Start button to exit game
+            if (Input.GetButtonDown("Start"))
+                HideExitingGame = !HideExitingGame;
 
-            DownArrow.Play("ArrowClick");
-            CameraIcon.Play("SelectIcon");
-            PhotoMode = !PhotoMode;
+            if (dpadY < 0 && !IsPressed)
+            {
+                IsPressed = true;
+                StartCoroutine(Cooldown());
+
+                DownArrow.Play("ArrowClick");
+                CameraIcon.Play("SelectIcon");
+                PhotoMode = !PhotoMode;
+            }
+            else if (dpadY > 0)
+                UpArrow.Play("ArrowClick");
+
+            else if (dpadX < 0)
+                LeftArrow.Play("ArrowClick");
+
+            else if (dpadX > 0)
+                RightArrow.Play("ArrowClick");
         }
-        else if(dpadY > 0)
-        {
-            UpArrow.Play("ArrowClick");
-            //BagIcon.Play("SelectIcon");
-        }
-        else if(dpadX < 0)
-        {
-            LeftArrow.Play("ArrowClick");
-        }
-        else if(dpadX > 0)
-        {
-            RightArrow.Play("ArrowClick");
-        }
-        //Check for esc button
     }
+    //Resume game after trying to exit game or reading clues
     public void ResumeGame ()
     {
         //Unfreeze time/movement
-        HideExitingGame = true;
+        if (!HideExitingGame)
+            HideExitingGame = true;
+
+        if (ReadingClue)
+            ReadingClue = false;
+
     }
+    //Quitting the game, stop editor if playing in editor
     public void QuitGame()
     {
-
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-
         Application.Quit();
     }
     #region HUD Related
+    //Change the visibility of HUD Elements
     public void ChangeHUDMode (Animator anim, bool value)
     {
         if (HUDAnimator.GetBool("On") && anim != HUDAnimator)
@@ -149,6 +202,7 @@ public class UIManager : MonoBehaviour
         if (anim == ExitGameAnimator)
             anim.GetComponent<CanvasGroup>().interactable = !value;
     }
+    //Fix for multi input values from dpad
     IEnumerator Cooldown ()
     {
         while (IsPressed)
@@ -158,6 +212,11 @@ public class UIManager : MonoBehaviour
             IsPressed = false;
         }
         StopCoroutine(Cooldown());
+    }
+    //Changes the text on the UI based on the text variable in the clue script on the object
+    public void ChangeClueText (string text)
+    {
+        ClueText.text = text;
     }
     #endregion
 }

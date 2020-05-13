@@ -738,8 +738,6 @@ GameObject:
   m_Component:
   - component: {fileID: 189940641853391474}
   - component: {fileID: 7793705380890046216}
-  - component: {fileID: 2926261552813854068}
-  - component: {fileID: 4095949698010173893}
   - component: {fileID: -3668530027183810168}
   - component: {fileID: 5754912951931199866}
   m_Layer: 0
@@ -786,43 +784,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2926261552813854068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3817249117596430433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a051390cd7e0fa4aaf33e29cbf7b089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SwimmingSpeedModifier: 1
-  LandSpeedModifier: 1
-  Depth: 0
-  animatorController: {fileID: 0}
---- !u!114 &4095949698010173893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3817249117596430433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a2df8babb3fac42a56c6e5076b3e3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyToParent: 0
-  engageBuoyancy: 1
-  activationRange: 75
-  inheritForce: 0
-  keepAtSurface: 0
-  buoyancyOffset: 0
-  buoyancyStrength: 1
-  forceAmount: 1
-  forceHeightFactor: 0
 --- !u!54 &-3668530027183810168
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -848,7 +809,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3817249117596430433}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.26
   m_Height: 2
   m_Direction: 1

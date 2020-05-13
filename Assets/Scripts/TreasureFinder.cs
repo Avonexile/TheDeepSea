@@ -5,19 +5,21 @@ using XInputDotNetPure;
 
 public class TreasureFinder : MonoBehaviour
 {
+    public static TreasureFinder current;
+
     private GameObject treasure;
 
     private float distance;
 
-    public float intensity;
-
     private bool FindingTreasure;
-
-    public float pulse, cooldown;
 
 
     public AnimationCurve controllerPulseCurve;
 
+    private void Awake()
+    {
+        current = this;
+    }
     private void FixedUpdate()
     {
         if (FindingTreasure && treasure != null)
@@ -39,6 +41,12 @@ public class TreasureFinder : MonoBehaviour
             StartCoroutine(Finding());
         }
     }
+    public void TurnOffVibration ()
+    {
+        FindingTreasure = false;
+        treasure = null;
+        StopCoroutine(Finding());
+    }
     private void OnTriggerExit(Collider other)
     {
         if(other.tag == "Treasure")
@@ -55,7 +63,7 @@ public class TreasureFinder : MonoBehaviour
 
         while (FindingTreasure)
         {
-            time += Time.deltaTime * (1 - (distance / 10));
+            time += Time.deltaTime * (1 - (distance / 10)); //* (1 - (distance / 10)
 
             GamePad.SetVibration(0, 0, controllerPulseCurve.Evaluate(time));
 
