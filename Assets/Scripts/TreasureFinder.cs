@@ -16,9 +16,14 @@ public class TreasureFinder : MonoBehaviour
 
     public AnimationCurve controllerPulseCurve;
 
+    public bool firstTime;
+
+    public float time;
+
     private void Awake()
     {
         current = this;
+        firstTime = true;
     }
     private void FixedUpdate()
     {
@@ -59,11 +64,23 @@ public class TreasureFinder : MonoBehaviour
     }
     private IEnumerator Finding()
     {
-        float time = 0;
+        time = 0;
 
         while (FindingTreasure)
         {
-            time += Time.deltaTime * (1 - (distance / 10)); //* (1 - (distance / 10)
+            if(firstTime)
+            {
+                //TODO explain the vibrating
+                UIManager.current.ChangeHUDMode(UIManager.current.VibrationNotification, true);
+                firstTime = false;
+            }
+            //When far away, seconds between soft quick vibration
+
+            time += Time.deltaTime;
+          
+            Keyframe[] keyframes = controllerPulseCurve.keys;
+            keyframes[0].value = 1.3f - distance / 10;
+            controllerPulseCurve.keys = keyframes;
 
             GamePad.SetVibration(0, 0, controllerPulseCurve.Evaluate(time));
 

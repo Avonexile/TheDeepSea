@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     public Animator ExitGameAnimator;
     public Animator ClueAnimator;
     public Animator TitleScreen;
+    public Animator VibrationNotification;
 
     [Header("Icon Animations")]
     public Animator BagIcon;
@@ -132,7 +133,7 @@ public class UIManager : MonoBehaviour
 
         ClueAnimator.SetBool("On", true);
 
-        CursorState = false;//Test
+        CursorState = true;//Test
     }
     private void Start()
     {
