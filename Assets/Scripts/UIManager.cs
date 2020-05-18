@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI ClueText;
 
+    public TextMeshProUGUI VolumeText;
+
     [Header("Wheel Options")]
     public Animator UpArrow;
     public Animator DownArrow;
@@ -29,6 +31,7 @@ public class UIManager : MonoBehaviour
     public Animator ClueAnimator;
     public Animator TitleScreen;
     public Animator VibrationNotification;
+    public Animator OptionsAnimator;
 
     [Header("Icon Animations")]
     public Animator BagIcon;
@@ -38,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     private bool _cursorState;
     private bool _hideExitingGame;
+    private bool _options;
 
     private bool _readingClue;
 
@@ -99,6 +103,34 @@ public class UIManager : MonoBehaviour
             ChangeHUDMode(ExitGameAnimator, value);
         }
     }
+    public bool Options
+    {
+        get
+        {
+            return _options;
+        }
+        set
+        {
+            _options = value;
+
+            if (value)
+            {
+                EventSystemClass.firstSelectedGameObject = FirstSelectedUI[2];
+            }
+
+            //Stop animation or play animation
+            PlayerMovementController.current.animatorController.enabled = !value;
+
+            //Block input from dpad and start button
+            GameManager.current.BlockDpad = value;
+
+            //Blocks the player movement
+            GameManager.current.BlockMovement = value;
+
+            //If true, disable HUD, else enable
+            ChangeHUDMode(OptionsAnimator, !value);
+        }
+    }
     public bool ReadingClue
     {
         get
@@ -109,8 +141,11 @@ public class UIManager : MonoBehaviour
         {
             _readingClue = value;
 
-            //Set the UI selection to the close button
-            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
+            if (value)
+            {
+                //Set the UI selection to the close button
+                EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
+            }
 
             //Stop animation or play animation
             PlayerMovementController.current.animatorController.enabled = !value;
@@ -133,7 +168,9 @@ public class UIManager : MonoBehaviour
 
         ClueAnimator.SetBool("On", true);
 
-        CursorState = true;//Test
+        OptionsAnimator.SetBool("On", true);
+
+        //CursorState = true; //Uncomment
     }
     private void Start()
     {
@@ -146,13 +183,17 @@ public class UIManager : MonoBehaviour
         float dpadX = Input.GetAxis("DPad X");
         float dpadY = Input.GetAxis("DPad Y");
 
+        //Start button to exit game
+        if (Input.GetButtonDown("Start") && !Options)
+            HideExitingGame = !HideExitingGame;
+
+        //Start button to exit game
+        if (Input.GetButtonDown("Options") && HideExitingGame)
+            Options = !Options;
+
         //If dpad and start input isnt blocked
         if (!GameManager.current.BlockDpad)
         {
-            //Start button to exit game
-            if (Input.GetButtonDown("Start"))
-                HideExitingGame = !HideExitingGame;
-
             if (dpadY < 0 && !IsPressed)
             {
                 IsPressed = true;
@@ -218,6 +259,10 @@ public class UIManager : MonoBehaviour
     public void ChangeClueText (string text)
     {
         ClueText.text = text;
+    }
+    public void ChangeVolumeText(float value)
+    {
+        VolumeText.text = value.ToString() + "%";
     }
     #endregion
 }
