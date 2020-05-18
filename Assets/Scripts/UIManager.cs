@@ -94,6 +94,11 @@ public class UIManager : MonoBehaviour
         {
             _hideExitingGame = value;
 
+
+            ExitGameAnimator.gameObject.GetComponent<CanvasGroup>().interactable = value;
+
+            //Turn interactible exitgamemenu to !value
+            EventSystemClass.SetSelectedGameObject(FirstSelectedUI[0]);
             EventSystemClass.firstSelectedGameObject = FirstSelectedUI[0];
 
             //Blocks the player movement
@@ -113,10 +118,10 @@ public class UIManager : MonoBehaviour
         {
             _options = value;
 
-            if (value)
-            {
-                EventSystemClass.firstSelectedGameObject = FirstSelectedUI[2];
-            }
+            OptionsAnimator.gameObject.GetComponent<CanvasGroup>().interactable = value;
+
+            EventSystemClass.SetSelectedGameObject(FirstSelectedUI[2]);
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[2];
 
             //Stop animation or play animation
             PlayerMovementController.current.animatorController.enabled = !value;
@@ -141,11 +146,11 @@ public class UIManager : MonoBehaviour
         {
             _readingClue = value;
 
-            if (value)
-            {
-                //Set the UI selection to the close button
-                EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
-            }
+            ClueAnimator.gameObject.GetComponent<CanvasGroup>().interactable = value;
+
+            //Set the UI selection to the close button
+            EventSystemClass.SetSelectedGameObject(FirstSelectedUI[1]);
+            EventSystemClass.firstSelectedGameObject = FirstSelectedUI[1];
 
             //Stop animation or play animation
             PlayerMovementController.current.animatorController.enabled = !value;
