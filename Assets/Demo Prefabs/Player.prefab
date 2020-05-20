@@ -1949,7 +1949,7 @@ MonoBehaviour:
   _jumpHeight: 5
   animatorController: {fileID: 1019742500558127595}
   velocityShrinkSpeedUnderwater: 0.97
-  overTime: 10
+  RotateOverTime: 0
 --- !u!95 &1019742500558127595
 Animator:
   serializedVersion: 3
@@ -2208,6 +2208,8 @@ MonoBehaviour:
     m_PreInfinity: 1
     m_PostInfinity: 1
     m_RotationOrder: 4
+  firstTime: 0
+  time: 0
 --- !u!135 &7042546565850338192
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2219,7 +2221,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7231189878331002672
 GameObject:

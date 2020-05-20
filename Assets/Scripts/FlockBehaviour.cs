@@ -36,7 +36,7 @@ public class FlockBehaviour : MonoBehaviour
         Keyframe[] keyframes = escapeSpeedCurve.keys;
 
         keyframes[0].value = duration;
-        keyframes[1].value = duration * 0.8f;
+        keyframes[1].value = duration * 0.2f;
         keyframes[2].value = duration + 1;
 
         escapeSpeedCurve.keys = keyframes;
