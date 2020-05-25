@@ -14,8 +14,7 @@ public class AudioManager : MonoBehaviour
 	//Audio source
 	public AudioSource MyAudioSource;
 
-	//Some high pass filter
-	public AudioHighPassFilter HighPass;
+	public AudioChorusFilter ChorusFilter;
 
 	private int _songIndex;
 
@@ -43,12 +42,15 @@ public class AudioManager : MonoBehaviour
 		if (!MyAudioSource.isPlaying)
 			ListConverter(SongIndex++);
 	}
-	//Changes the cutoff frequency and highpass resonance
-	public void ChangeHighPass (float cutFreq, float resonance)
+	public void ChangeChorusFilter(float drymix, float wetmix1, float wetmix2, float wetmix3, float delay, float rate, float depth)
 	{
-		HighPass.cutoffFrequency = Mathf.Lerp(HighPass.cutoffFrequency, cutFreq, LerpSpeed);
-
-		HighPass.highpassResonanceQ = Mathf.Lerp(HighPass.highpassResonanceQ, resonance, LerpSpeed);
+		ChorusFilter.dryMix = Mathf.Lerp(ChorusFilter.dryMix, drymix, LerpSpeed);
+		ChorusFilter.wetMix1 = Mathf.Lerp(ChorusFilter.wetMix1, wetmix1, LerpSpeed); ;
+		ChorusFilter.wetMix2 = Mathf.Lerp(ChorusFilter.wetMix2, wetmix2, LerpSpeed); ;
+		ChorusFilter.wetMix3 = Mathf.Lerp(ChorusFilter.wetMix3, wetmix3, LerpSpeed); ;
+		ChorusFilter.delay = Mathf.Lerp(ChorusFilter.delay, delay, LerpSpeed); ;
+		ChorusFilter.rate = Mathf.Lerp(ChorusFilter.rate, rate, LerpSpeed); ;
+		ChorusFilter.depth = Mathf.Lerp(ChorusFilter.depth, depth, LerpSpeed); ;
 	}
 	//Chooses song from song list and continues after ending last song
 	public void ListConverter(int number)

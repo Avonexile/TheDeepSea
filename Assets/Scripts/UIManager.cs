@@ -175,7 +175,7 @@ public class UIManager : MonoBehaviour
 
         OptionsAnimator.SetBool("On", true);
 
-        CursorState = true; //Uncomment
+        //CursorState = true; //Uncomment
     }
     private void Start()
     {

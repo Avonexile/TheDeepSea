@@ -95,8 +95,7 @@ public class PlayerMovementController : MonoBehaviour
                 
                 MovementSpeed = BaseWaterSpeed;
 
-                //Change audio
-                AudioManager.current.ChangeHighPass(1500f, 4f);
+                AudioManager.current.ChangeChorusFilter(0,.5f,.5f,.5f,.1f,1f,.25f);
 
                 RotateOverTime = 1.1f;
             }
@@ -105,8 +104,7 @@ public class PlayerMovementController : MonoBehaviour
                 animatorController.SetBool("Swimming", value);
                 MovementSpeed = BaseLandSpeed;
 
-                //Change Audio
-                AudioManager.current.ChangeHighPass(10f, 1f);
+                AudioManager.current.ChangeChorusFilter(0.5f, 0.5f,0.5f,0.5f,40, .8f, 0.03f);
 
                 RotateOverTime = 10f;
             }
